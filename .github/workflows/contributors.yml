@@ -1,0 +1,17 @@
+# .github/workflows/contributors.yml
+name: All Contributors
+on:
+  issue_comment:
+    types: [created]
+  pull_request:
+    types: [closed]
+
+jobs:
+  add-contributors:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request
+    steps:
+      - uses: actions/checkout@v4
+      - uses: all-contributors/action@v6.16.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
