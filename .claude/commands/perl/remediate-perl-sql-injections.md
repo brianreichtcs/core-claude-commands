@@ -22,6 +22,10 @@ vulnerabilities in ARGUMENTS.
       understanding of the function.
     - Replace the call to update() with a direct SQL update query, using
       stored procedures to make it secure.
-4. If you find calls to other Perl scripts, re-run this command with those
+6. If SQL queries are only used once and do not require application logic to
+   customize the queries, avoid defining the query in a variable and passing
+   to the database functions. Instead, inline the query directly into the
+   function call.
+7. If you find calls to other Perl scripts, re-run this command with those
    scripts as arguments.
 
