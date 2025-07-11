@@ -22,7 +22,7 @@ with the following requirements:
 ## Rules
 
 1. Only operate on the file `input_file`.
-2. Replace all `DBquery3` calls with mysqli prepared statements.
+2. Replace all `DBquery3` and `DBupdate3` calls with mysqli prepared statements.
     - When creating a prepared statement, if creating the statement fails handle
       as follows (inline, not as a separate function):
         - Log the error at error level using LoggerInterface from DI container
