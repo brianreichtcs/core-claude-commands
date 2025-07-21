@@ -1,8 +1,14 @@
 # Remediate a Legacy PHP Script
 
+## Variables
+
+- `$target`
+    - Value: $ARGUMENTS
+    - Purpose: The path to the file to remediate.
+
 ## Objective
 
-The goal of this command is to remediate security issues in $ARGUMENTS by
+The goal of this command is to remediate security issues in $target by
 following the process in this file. The script is expected to be a procedural 
 PHP file that may contain vulnerabilities such as SQL injection, insecure file 
 handling, command injection, XSS, or other common security flaws.
@@ -15,10 +21,10 @@ First, here are some high-level workflow rules to follow:
 
 ## Workflow
 
-1. If you cannot find the file $ARGUMENTS, then STOP. Do not go off script.
+1. If you cannot find the file $target, then STOP. Do not go off script.
 2. Form a task list and keep it updated as you go. The task list filename is
    `remediate-{filename}-tasks.md` where `{filename}` is the base name component of
-   $ARGUMENTS and place it at the root of the repository. Mark tasks complete as
+   $target and place it at the root of the repository. Mark tasks complete as
    you complete them.
 3. Create a state tracking file `remediate-{filename}-state.json` to track progress
    and command execution results. This file should contain:
@@ -31,28 +37,28 @@ First, here are some high-level workflow rules to follow:
 6. After each sub-command completes, update the state file with the result.
 7. If a sub-command fails, check the state file to determine recovery options.
 8. After each task, run the command /quality:run-linters on the file
-   $ARGUMENTS to identify and cleanup any remaining coding standards issues.
+   $target to identify and cleanup any remaining coding standards issues.
 9. Stage, commit, and push changes after each task. Use good practices with
    crafting atomic commit messages to make git history easy to read, and tell
    the story of the changes made.
 
 ## Process
 
-1. Run the command `/legacy:factor-out-dbquery3 $ARGUMENTS` to
+1. Run the command `/legacy:factor-out-dbquery3 $target` to
    refactor any calls to `DBquery3` into secure prepared statements.
-2. Run the command `/legacy:remediate-command-injections-php $ARGUMENTS` to
+2. Run the command `/legacy:remediate-command-injections-php $target` to
    remediate any command injection vulnerabilities by replacing insecure calls
    calls to other commands.
 3. Find any calls to Perl scripts and remediate by running the command
-    `/legacy:remediate-perl-scripts $ARGUMENTS` to remediate the full
+    `/legacy:remediate-perl-scripts $target` to remediate the full
     execution path of the Perl script.
-4. Run the command `/legacy:jsonify-legacy-output $ARGUMENTS` to
+4. Run the command `/legacy:jsonify-legacy-output $target` to
    refactor legacy output processing to safer JSON output.
-5. Run the command `/legacy:add-input-validation $ARGUMENTS` to
+5. Run the command `/legacy:add-input-validation $target` to
    add input validation to the script.
-6. Run the command `/legacy:add-file-level-docblock $ARGUMENTS` to
+6. Run the command `/legacy:add-file-level-docblock $target` to
    add a file-level docblock to the script.
-7. Run the command `/quality:run-linters $ARGUMENTS` to
+7. Run the command `/quality:run-linters $target` to
    identify and cleanup any remaining coding standards issues.
 
 ## Error Handling and Recovery
@@ -68,7 +74,7 @@ First, here are some high-level workflow rules to follow:
 The state tracking JSON file should follow this structure:
 ```json
 {
-  "file": "$ARGUMENTS",
+  "file": "$target",
   "started_at": "ISO timestamp",
   "current_step": "step_name",
   "completed_steps": [
@@ -106,7 +112,7 @@ When encountering issues during execution, follow this decision tree:
 2. **Check spelling**: Ensure command names match exactly
 3. **If command missing**: Stop and ask for guidance
 
-### File Not Found ($ARGUMENTS)
+### File Not Found ($target)
 - **Stop immediately** - do not attempt to create or modify other files
 - **Log error** in state file
 - **Report** file path that was attempted

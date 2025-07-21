@@ -1,16 +1,22 @@
 # Add Input Validation
 
+## Variables
+
+- `$target`
+    - Value: $ARGUMENTS
+    - Purpose: The path to the file to add input validation to.
+
 ## Objectives
 
 The goal of this command is to remediate security risks that could be introduced
-by invalid or malicious user input in the PHP script $ARGUMENTS by explicitly
+by invalid or malicious user input in the PHP script $target by explicitly
 following the process in this file to introduce input validation to the script.
 The script is expected to be a procedural PHP file.
 
 ## Workflow
 
-1. If you cannot find the file $ARGUMENTS, then STOP. Do not go off script.
-2. Scan the file for any usage of $_GET, $_POST, or $_REQUEST variables. If none are found, log "No user input parameters found in $ARGUMENTS" and exit successfully without making changes.
+1. If you cannot find the file $target, then STOP. Do not go off script.
+2. Scan the file for any usage of $_GET, $_POST, or $_REQUEST variables. If none are found, log "No user input parameters found in $target" and exit successfully without making changes.
 3. **Adaptive approach**: If the file structure doesn't exactly match expectations, adapt the validation approach while maintaining security objectives. If unsure about specific validation requirements, stop and ask for guidance.
 
 ## Process
@@ -35,6 +41,6 @@ The script is expected to be a procedural PHP file.
 ## Success/Failure Reporting
 
 At the end of execution:
-- **Success**: If all user inputs were successfully validated, log "Successfully added input validation to all user inputs in $ARGUMENTS" at info level and exit with code 0.
-- **Failure**: If any errors occurred during remediation, log "Failed to add input validation to $ARGUMENTS: [error details]" at error level and exit with code 1.
-- **No-op**: If no user input parameters were found, log "No user input parameters found in $ARGUMENTS - no changes needed" at info level and exit with code 0.
+- **Success**: If all user inputs were successfully validated, log "Successfully added input validation to all user inputs in $target" at info level and exit with code 0.
+- **Failure**: If any errors occurred during remediation, log "Failed to add input validation to $target: [error details]" at error level and exit with code 1.
+- **No-op**: If no user input parameters were found, log "No user input parameters found in $target - no changes needed" at info level and exit with code 0.
