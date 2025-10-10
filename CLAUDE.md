@@ -34,10 +34,10 @@ cd core-claude-commands
 /plugin install core-claude-plugin@core-marketplace
 ```
 
-**Method 2: From Elsewhere**
+**Method 2:From Git 
 ```bash
 # Add marketplace from path
-/plugin marketplace add /path/to/core-claude-commands
+/plugin marketplace add brianreichtcs/core-claude-commands
 
 # Install the plugin
 /plugin install core-claude-plugin@core-marketplace
