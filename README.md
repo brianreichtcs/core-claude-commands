@@ -1,51 +1,65 @@
-# Core Claude Plugin
+# Core Marketplace
 
-A comprehensive Claude Code plugin providing 21+ commands and 21+ specialized agents for the CORE Software Team.
+A Claude Code plugin marketplace for the CORE Software Team, providing a comprehensive collection of development tools and AI assistants.
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](.claude-plugin/plugin.json)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://docs.claude.com/en/docs/claude-code/plugins)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](core-claude-plugin/.claude-plugin/plugin.json)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Marketplace-purple.svg)](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)
 
 ## Overview
 
-This plugin provides automation tools for working on the CORE Compliance Platform, including:
+This marketplace hosts the **core-claude-plugin** with automation tools for working on the CORE Compliance Platform:
 - **21 Commands**: Security remediation, code quality, documentation, and workflow automation
 - **21 Agents**: Specialized AI assistants for development, security, compliance, and architecture
 - **Multiple Categories**: Legacy code, Perl scripts, security, quality assurance, and processes
 
 ## Quick Start
 
-### Install the Plugin
+### 1. Add the Marketplace
 
 ```bash
-claude plugin install /path/to/core-claude-commands
+# From repository directory
+/plugin marketplace add .
+
+# Or from elsewhere
+/plugin marketplace add /path/to/core-claude-commands
 ```
 
-### Use a Command
+### 2. Install the Plugin
+
+```bash
+/plugin install core-claude-plugin@core-marketplace
+```
+
+### 3. Use a Command
 
 ```bash
 /remediate-sql-injection path/to/file.php
 /review
 ```
 
-### Use an Agent
+### 4. Use an Agent
 
 Agents are automatically available in your Claude Code conversations. Simply reference them by describing your need (e.g., "Can you review this for security issues?" will invoke the security-auditor agent).
 
-## Plugin Structure
+## Marketplace Structure
 
 ```
-.claude-plugin/      # Plugin manifest and metadata
-  ├── plugin.json    # Plugin configuration
-  └── README.md      # Plugin documentation
-
-commands/            # 21+ slash commands organized by category
-  ├── legacy/        # PHP legacy code remediation
-  ├── perl/          # Perl-specific commands
-  ├── processes/     # Multi-step workflows
-  ├── quality/       # Code quality tools
-  └── security/      # Security remediation
-
-agents/              # 21+ specialized AI agents
+core-claude-commands/            # Marketplace repository
+├── marketplace.json             # Marketplace manifest
+│
+└── core-claude-plugin/          # Plugin: CORE development tools
+    ├── .claude-plugin/
+    │   ├── plugin.json          # Plugin manifest
+    │   └── README.md            # Plugin documentation
+    │
+    ├── commands/                # 21+ slash commands organized by category
+    │   ├── legacy/              # PHP legacy code remediation
+    │   ├── perl/                # Perl-specific commands
+    │   ├── processes/           # Multi-step workflows
+    │   ├── quality/             # Code quality tools
+    │   └── security/            # Security remediation
+    │
+    └── agents/                  # 21+ specialized AI agents
 ```
 
 ## Available Commands
@@ -130,21 +144,30 @@ This plugin includes 21 specialized AI agents that are automatically available i
 
 ## Installation
 
-### Install the Plugin
+### Step 1: Add the Marketplace
 
-**Via Claude Code CLI** (recommended):
-```bash
-claude plugin install /path/to/core-claude-commands
-```
-
-**Or clone and install**:
+**From the repository directory**:
 ```bash
 git clone <repository-url>
 cd core-claude-commands
-claude plugin install .
+
+# In Claude Code, add the marketplace
+/plugin marketplace add .
 ```
 
-### Verify Installation
+**Or from a different location**:
+```bash
+/plugin marketplace add /path/to/core-claude-commands
+```
+
+### Step 2: Install the Plugin
+
+```bash
+# Install the core-claude-plugin from the marketplace
+/plugin install core-claude-plugin@core-marketplace
+```
+
+### Step 3: Verify Installation
 
 ```bash
 # Test a command
@@ -153,25 +176,27 @@ claude plugin install .
 # Commands and agents should now be available
 ```
 
-See [Claude Code Plugin Documentation](https://docs.claude.com/en/docs/claude-code/plugins) for more details.
+See [Claude Code Plugin Marketplaces](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces) for more details.
 
 ## Contributing
 
-We encourage the CORE Software Team to contribute to this plugin!
+We encourage the CORE Software Team to contribute to this marketplace!
 
 ### How to Contribute
 
 1. **Fork or create a feature branch**
 2. **Add your command or agent**:
-   - Commands go in `commands/` (organized by category)
-   - Agents go in `agents/`
-3. **Update plugin version** in `.claude-plugin/plugin.json`:
+   - Commands go in `core-claude-plugin/commands/` (organized by category)
+   - Agents go in `core-claude-plugin/agents/`
+3. **Update plugin version** in `core-claude-plugin/.claude-plugin/plugin.json`:
    - **Patch** (1.0.x): Bug fixes and minor tweaks
    - **Minor** (1.x.0): New commands/agents, backward-compatible changes
    - **Major** (x.0.0): Breaking changes or major restructuring
 4. **Test locally**:
    ```bash
-   claude plugin install .
+   # Add marketplace and install plugin
+   /plugin marketplace add .
+   /plugin install core-claude-plugin@core-marketplace
    # Test your changes in a Claude Code session
    ```
 5. **Submit a PR** with clear description of the new functionality
@@ -203,8 +228,9 @@ We encourage the CORE Software Team to contribute to this plugin!
 ## Documentation
 
 - [CLAUDE.md](./CLAUDE.md) - Comprehensive documentation for Claude Code
-- [Plugin Manifest](.claude-plugin/plugin.json) - Plugin metadata and configuration
-- [Claude Code Plugins](https://docs.claude.com/en/docs/claude-code/plugins) - Official plugin documentation
+- [Marketplace Manifest](./marketplace.json) - Marketplace configuration
+- [Plugin Manifest](./core-claude-plugin/.claude-plugin/plugin.json) - Plugin metadata and configuration
+- [Claude Code Marketplaces](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces) - Official marketplace documentation
 
 ## Target Use Cases
 
