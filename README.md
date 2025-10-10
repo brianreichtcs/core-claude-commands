@@ -18,10 +18,7 @@ This marketplace hosts the **core-claude-plugin** with automation tools for work
 
 ```bash
 # From repository directory
-/plugin marketplace add .
-
-# Or from elsewhere
-/plugin marketplace add /path/to/core-claude-commands
+/plugin marketplace add brianreichtcs/core-claude-commands 
 ```
 
 ### 2. Install the Plugin
