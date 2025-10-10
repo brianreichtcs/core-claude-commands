@@ -4,24 +4,38 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This repository is a centralized collection of reusable Claude Code automation tools (commands, agents, and configurations) that can be installed into any developer's environment and used across multiple projects. It serves as a shared toolkit for the CORE Software Team, providing standardized automation for code remediation, security scanning, code review, and development workflows.
+This repository is a Claude Code plugin that provides reusable automation tools (commands, agents, and configurations) for the CORE Software Team. It leverages Claude Code's native plugin system to deliver standardized automation for code remediation, security scanning, code review, and development workflows across multiple projects.
 
 ## Key Commands
 
 ## How It Works
 
 1. **Development**: Commands and agents are developed and tested in this repository
-2. **Installation**: Developers run `./install-commands.sh` to copy the `.claude/` folder contents to their home directory
-3. **Usage**: Once installed, these commands become available in any project the developer works on
-4. **Updates**: Pull latest changes and re-run the install script to get new/updated commands
+2. **Plugin Manifest**: The `.claude-plugin/plugin.json` file defines the plugin metadata and configuration
+3. **Installation**: Install the plugin using Claude Code's built-in plugin system
+4. **Auto-Discovery**: Claude Code automatically discovers commands in the `commands/` directory and agents in the `agents/` directory
+5. **Usage**: Once installed, commands and agents become available in any project
+6. **Updates**: Update the plugin to receive new/updated commands and agents
 
 ### Installation
-To install these automation tools into your Claude Code environment:
+
+To install this plugin in your Claude Code environment:
+
+**Method 1: Via Claude Code CLI** (recommended)
 ```bash
-./install-commands.sh
+claude plugin install <path-to-repository>
 ```
 
-This copies all commands from `.claude/commands/` to `~/.claude/commands/` and agents from `.claude/agents/` to `~/.claude/agents/`, making them globally available across all your projects.
+**Method 2: Clone and Install**
+```bash
+git clone <repository-url>
+cd core-claude-commands
+claude plugin install .
+```
+
+Once installed, Claude Code automatically discovers all commands and agents, making them globally available across all your projects.
+
+For more details on plugin installation and management, see the [Claude Code Plugin Documentation](https://docs.claude.com/en/docs/claude-code/plugins).
 
 ### Common Development Tasks
 
@@ -50,18 +64,25 @@ This copies all commands from `.claude/commands/` to `~/.claude/commands/` and a
 
 ### Directory Structure
 ```
-.claude/
-├── agents/           # Specialized AI agents for specific tasks
-│   ├── cicd-engineer.md
-│   ├── code-review-mentor.md
-│   └── performance-optimizer.md
-├── commands/         # Claude Code command definitions
-│   ├── legacy/      # PHP legacy code commands
-│   ├── perl/        # Perl-specific commands
-│   ├── processes/   # Multi-step workflow commands
-│   ├── quality/     # Code quality commands
-│   └── security/    # Security remediation commands
-└── settings.local.json
+.claude-plugin/
+├── plugin.json       # Plugin manifest with metadata
+└── README.md         # Plugin documentation
+
+agents/               # Specialized AI agents for specific tasks
+├── cicd-engineer.md
+├── code-review-mentor.md
+├── performance-optimizer.md
+├── security-auditor.md
+├── junior-developer-mentor.md
+├── iso-27001-auditor.md
+└── ...
+
+commands/             # Claude Code command definitions
+├── legacy/          # PHP legacy code commands
+├── perl/            # Perl-specific commands
+├── processes/       # Multi-step workflow commands
+├── quality/         # Code quality commands
+└── security/        # Security remediation commands
 ```
 
 ### Command Structure
@@ -76,6 +97,21 @@ Specialized agents provide focused expertise:
 - **code-review-mentor**: Reviews code with educational feedback
 - **cicd-engineer**: Handles CI/CD pipeline and deployment tasks
 - **performance-optimizer**: Analyzes and optimizes performance issues
+- **security-auditor**: Identifies and remediates security vulnerabilities
+- **junior-developer-mentor**: Provides guidance for less experienced developers
+- **iso-27001-auditor**: Audits compliance with ISO 27001 standards
+
+### Plugin Manifest
+The `.claude-plugin/plugin.json` file defines the plugin's metadata:
+- **name**: Unique identifier for the plugin (`core-claude-plugin`)
+- **description**: Brief description of plugin functionality
+- **version**: Semantic version number (follow semver.org conventions)
+- **author**: Plugin maintainer information
+
+Claude Code automatically discovers:
+- Commands from the `commands/` directory (and subdirectories)
+- Agents from the `agents/` directory
+- No manual installation or copying required
 
 ## Target Project Context
 
@@ -90,12 +126,17 @@ The commands are particularly effective for the CORE Compliance Platform but can
 ## Developing New Commands
 
 When creating or modifying commands in this repository:
-1. Place commands in appropriate subdirectories under `.claude/commands/`
-2. Use clear, descriptive filenames that match the command name
-3. Include comprehensive documentation within each command file
-4. Test commands thoroughly before committing
-5. Consider reusability across different projects
-6. Follow existing patterns and conventions
+1. Place commands in appropriate subdirectories under `commands/` (not `.claude/commands/`)
+2. Place agents in the `agents/` directory (not `.claude/agents/`)
+3. Update the plugin version in `.claude-plugin/plugin.json` when making changes:
+   - **Patch** (1.0.x): Bug fixes and minor tweaks
+   - **Minor** (1.x.0): New commands or agents, backward-compatible changes
+   - **Major** (x.0.0): Breaking changes or major restructuring
+4. Use clear, descriptive filenames that match the command name
+5. Include comprehensive documentation within each command file
+6. Test commands thoroughly before committing
+7. Consider reusability across different projects
+8. Follow existing patterns and conventions
 
 ## Command Development Guidelines
 
@@ -109,10 +150,20 @@ When creating or modifying commands in this repository:
 
 To contribute new automation tools:
 1. Fork this repository or create a feature branch
-2. Develop and test your commands/agents
-3. Ensure they follow the existing structure and conventions
-4. Submit a PR with clear description of the new functionality
-5. Update this CLAUDE.md if adding new categories or significant features
+2. Develop and test your commands/agents in the appropriate directories (`commands/`, `agents/`)
+3. Update the plugin version in `.claude-plugin/plugin.json` following semantic versioning
+4. Test the plugin installation process locally:
+   ```bash
+   claude plugin install .
+   ```
+5. Ensure changes follow the existing structure and conventions
+6. Submit a PR with clear description of the new functionality
+7. Update this CLAUDE.md if adding new categories or significant features
+
+**Plugin Versioning Guidelines:**
+- Increment patch version for bug fixes
+- Increment minor version for new commands/agents
+- Increment major version for breaking changes
 
 Focus areas for contributions:
 - Security remediation capabilities

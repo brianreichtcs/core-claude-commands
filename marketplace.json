@@ -1,0 +1,14 @@
+{
+    "name": "core-marketplace",
+    "owner" : {
+        "name": "CORE Software Team",
+    },
+    "plugins": [
+        {
+            "name": "core-claude-plugin",
+            "source": ".core-claude-plugin",
+            "description": "A Claude plugin to make developing on CORE Compliance Platform delightful."
+        }
+    ]
+}
+

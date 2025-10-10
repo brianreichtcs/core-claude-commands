@@ -1,86 +1,219 @@
-# core-claude-commands
+# Core Claude Plugin
 
-This repository provides Claude commands that I've developed for working
-specifically on CORE Compliance Platform.
+A comprehensive Claude Code plugin providing 21+ commands and 21+ specialized agents for the CORE Software Team.
 
-## Structure
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](.claude-plugin/plugin.json)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-purple.svg)](https://docs.claude.com/en/docs/claude-code/plugins)
 
-- `.claude/` - Directory containing Claude Code commands, hooks, etc.
-- `install-commands.sh` - A Bash script for installing commands into
-  your home directory where Claude Code can pick them up.
-- `README.md` - A description of this project (this document).
+## Overview
 
-## Legacy Code Commands
+This plugin provides automation tools for working on the CORE Compliance Platform, including:
+- **21 Commands**: Security remediation, code quality, documentation, and workflow automation
+- **21 Agents**: Specialized AI assistants for development, security, compliance, and architecture
+- **Multiple Categories**: Legacy code, Perl scripts, security, quality assurance, and processes
 
-- `/add-file-level-docblock <file>` - A command for adding a docblock to the top
-  of a file. Does some thinking about the code first, then does it's best
-  to write a useful docblock with a summary, a detailed explaination, an
-  explaination of expected inputs, outputs, and side effects. Uses a
-  template to specify the proper docblock format and annotations we expect
-  to see in each file.
-- `/factory-out-dbquery3 <file>` - A command for specifically rooting out SQL
-  injections in legacy code that exist due to use of `DBquery3()` and
-  related legacy functions. Replaces these function calls with equivalent
-  calls to `mysqli::prepare()`
-- `/remediate-command-injections-php <file>` - Remediates command injection
-  vulnerabilities in PHP code by searching for backtick usages, `exec()`,
-  and similar function calls and using `SecureCommand` instead.
-- `/add-input-validation <file>` - Analyzes a legacy script for inputs and adds
-  validation code to stop badly-formatted requests in their tracks.
-- `/jsonify-legacy-outout <file>` - Takes a script that does what I cheekily
-  describe as "JSON-like string building" and does it's best to use
-  `json_encode()` to emit results while retaining the original result
-  shape.
-- `/remediate-perl-scripts <file>` - Attempts to remediate a Perl script
-  by fixing SQL injections and command injections. Attempts some
-  clever recursion to dive into called files and do the same.
+## Quick Start
 
-## Perl Specific Commands
-
-- `/document-perl-script <file>` - A command for adding a docblock to the top
-  of a Perl file. Does some thinking about the code first, then does it's
-  best to write a useful docblock with a summary, a detailed explaination,
-  an explaination of expected inputs, outputs, and side effects.
-- `/remediate-perl-command-injections <file>` - A command for resolving Command
-  Injection vulnerabilities by looking for backticks and other unsafe
-  execution methods, and replacing them with the Perl `SecureCommand`
-  implementation.
-- `/remediate-perl-sql-injections <file>` - A command for resolving SQL injections
-  in Perl by replacing string-building `DBI` code with appropriate `prepare()`
-  equivalents.
-
-## Processes
-
-- `/remediate <file>` - An attempt at a general purpose remediation command
-  that runs all remediation commands to result in a legacy file with zero
-  SQL injections, zero command injections, better input validation, and a
-  half decent description at the top of the file.
-- `/review` - Conducts a critical "self-review" of the changes on your branch.
-  This command contains instructions that check for all of the most common things
-  I typically get NITs and change requests for. My intent is to continue to add
-  to this command to help myself pre-check my work to lint-out the sort of
-  "trivial stuff" that I as the author might not pick up on as I read my
-  own code back to myself, but will be glaringly obvious and annoying to a
-  reviewer.
-- `/write-qa-test-plan` - Looks at the changes on your branch, does some deep
-  thinking about how and why, and the larger scope of your changes within the
-  application, and helps to write a test plan. Spits it out as markdown which
-  can be easily applied to a Jira ticket or PR description.
-
-## Using Commands
-
-To use these commands, you just need to install them into `~/.claude/commands`
-so Claude Code picks them up as user commands. I've provided a script to do it
-for you:
+### Install the Plugin
 
 ```bash
-./install-commands.sh
+claude plugin install /path/to/core-claude-commands
 ```
+
+### Use a Command
+
+```bash
+/remediate-sql-injection path/to/file.php
+/review
+```
+
+### Use an Agent
+
+Agents are automatically available in your Claude Code conversations. Simply reference them by describing your need (e.g., "Can you review this for security issues?" will invoke the security-auditor agent).
+
+## Plugin Structure
+
+```
+.claude-plugin/      # Plugin manifest and metadata
+  ├── plugin.json    # Plugin configuration
+  └── README.md      # Plugin documentation
+
+commands/            # 21+ slash commands organized by category
+  ├── legacy/        # PHP legacy code remediation
+  ├── perl/          # Perl-specific commands
+  ├── processes/     # Multi-step workflows
+  ├── quality/       # Code quality tools
+  └── security/      # Security remediation
+
+agents/              # 21+ specialized AI agents
+```
+
+## Available Commands
+
+### Security Remediation
+
+- `/remediate-sql-injection <file>` - Fix SQL injection vulnerabilities using prepared statements
+- `/remediate-command-injection <file>` - Replace unsafe command execution with SecureCommand
+- `/add-realm-validation <file>` - Add realm-specific validation
+- `/add-input-validation <file>` - Add input validation to legacy scripts
+
+### Legacy PHP Code
+
+- `/factor-out-dbquery3 <file>` - Replace DBquery3() with mysqli::prepare()
+- `/jsonify-legacy-output <file>` - Convert string-building to json_encode()
+- `/add-file-level-docblock <file>` - Add comprehensive file documentation
+- `/eliminate-cont-flag <file>` - Remove continuation flag pattern from legacy code
+
+### Perl Scripts
+
+- `/document-perl-script <file>` - Add docblock to Perl files
+- `/remediate-perl-command-injection <file>` - Fix Perl command injection vulnerabilities
+- `/remediate-perl-sql-injections <file>` - Fix SQL injections in Perl DBI code
+- `/remediate-perl-scripts <file>` - Comprehensive Perl script remediation with recursion
+
+### Workflow & Processes
+
+- `/remediate <file>` - Comprehensive remediation (SQL, command injection, validation, docs)
+- `/auto-remediate <file>` - Automated multi-step remediation
+- `/review` - Self-review branch changes using team standards
+- `/review-pr` - Perform PR review with focus on common issues
+- `/write-qa-test-plan` - Generate test plan based on branch changes
+
+### Code Quality
+
+- `/run-linters` - Execute project linting and quality tools
+
+## Available Agents
+
+This plugin includes 21 specialized AI agents that are automatically available in your Claude Code conversations:
+
+### Development & Code Quality
+
+- **code-review-mentor** - Reviews code with educational feedback
+- **junior-developer-mentor** - Guides less experienced developers
+- **tech-debt-reducer** - Identifies and refactors technical debt
+- **performance-optimizer** - Analyzes and optimizes performance issues
+- **qa-test-engineer** - Comprehensive quality assurance review
+
+### Security & Compliance
+
+- **security-auditor** - Identifies and remediates security vulnerabilities
+- **security-engineer** - Implements security fixes and best practices
+- **iso-27001-auditor** - Audits ISO 27001 information security compliance
+- **iso-9001-auditor** - Audits ISO 9001 quality management compliance
+
+### Architecture & Infrastructure
+
+- **architecture-reviewer** - Reviews system architecture decisions
+- **database-architect** - Optimizes database design and queries
+- **cicd-engineer** - Manages CI/CD pipelines and deployments
+- **sre** - Site reliability engineering expertise
+
+### Product & Business
+
+- **product-manager** - Product strategy and feature prioritization
+- **business-analyst** - Business process analysis and requirements
+- **customer-success-engineer** - Customer experience optimization
+- **scrum-master** - Agile practices and team facilitation
+
+### Frontend & Design
+
+- **frontend-engineer** - Modern JavaScript and UI development
+- **ux-designer** - User experience design and usability
+- **accessibility-engineer** - WCAG compliance and accessibility
+
+### Documentation & Communication
+
+- **technical-writer** - Clear technical documentation following best practices
+- **documentation-engineer** - Comprehensive docs and knowledge capture
+- **data-analyst** - Data analysis, metrics, and insights
+
+## Installation
+
+### Install the Plugin
+
+**Via Claude Code CLI** (recommended):
+```bash
+claude plugin install /path/to/core-claude-commands
+```
+
+**Or clone and install**:
+```bash
+git clone <repository-url>
+cd core-claude-commands
+claude plugin install .
+```
+
+### Verify Installation
+
+```bash
+# Test a command
+/review
+
+# Commands and agents should now be available
+```
+
+See [Claude Code Plugin Documentation](https://docs.claude.com/en/docs/claude-code/plugins) for more details.
 
 ## Contributing
 
-I'd encourage anyone on the CORE Software Team to offer contributions to this
-branch. To do so, please submit a PR.
+We encourage the CORE Software Team to contribute to this plugin!
+
+### How to Contribute
+
+1. **Fork or create a feature branch**
+2. **Add your command or agent**:
+   - Commands go in `commands/` (organized by category)
+   - Agents go in `agents/`
+3. **Update plugin version** in `.claude-plugin/plugin.json`:
+   - **Patch** (1.0.x): Bug fixes and minor tweaks
+   - **Minor** (1.x.0): New commands/agents, backward-compatible changes
+   - **Major** (x.0.0): Breaking changes or major restructuring
+4. **Test locally**:
+   ```bash
+   claude plugin install .
+   # Test your changes in a Claude Code session
+   ```
+5. **Submit a PR** with clear description of the new functionality
+6. **Update documentation** if adding new categories or significant features
+
+### Development Guidelines
+
+- See [CLAUDE.md](./CLAUDE.md) for detailed development guidelines
+- Follow existing patterns and conventions
+- Include comprehensive documentation within command files
+- Test thoroughly before submitting
+- Consider reusability across different projects
+
+### Focus Areas for Contributions
+
+- Security remediation capabilities
+- Code quality automation
+- Developer productivity tools
+- Legacy code modernization
+- Cross-project standardization
+- Team-specific workflows
+
+## Requirements
+
+- Claude Code CLI
+- Target projects: PHP and/or Perl codebases (especially CORE Compliance Platform)
+- Git (for installation and updates)
+
+## Documentation
+
+- [CLAUDE.md](./CLAUDE.md) - Comprehensive documentation for Claude Code
+- [Plugin Manifest](.claude-plugin/plugin.json) - Plugin metadata and configuration
+- [Claude Code Plugins](https://docs.claude.com/en/docs/claude-code/plugins) - Official plugin documentation
+
+## Target Use Cases
+
+This plugin is particularly effective for:
+- PHP and/or Perl codebases (especially legacy code)
+- Security remediation needs (SQL injection, command injection)
+- Code quality and review requirements
+- Compliance auditing (ISO 27001, ISO 9001)
+- Developer productivity and workflow automation
 
 ## Contributors
 
@@ -90,4 +223,3 @@ branch. To do so, please submit a PR.
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
