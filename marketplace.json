@@ -1,0 +1,15 @@
+{
+    "name": "core-marketplace",
+    "owner": {
+        "name": "Brian Reich",
+        "email": "brian.reich@thecoresolution.com"
+    },
+    "plugins": [
+        {
+            "name": "core-claude-plugin",
+            "source": "./core-claude-plugin",
+            "description": "A Claude plugin to make developing on CORE Compliance Platform delightful."
+        }
+    ]
+}
+

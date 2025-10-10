@@ -1,0 +1,10 @@
+{
+    "name": "core-claude-plugin",
+    "description": "A collection of sub-agents, commands, and MCPs for making Claude awesome to work on CORE Compliance platform",
+    "version": "1.0.0",
+    "author": {
+        "name": "Brian Reich",
+        "email": "brian.reich@thecoresolution.com"
+    }
+}
+

@@ -4,24 +4,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This repository is a centralized collection of reusable Claude Code automation tools (commands, agents, and configurations) that can be installed into any developer's environment and used across multiple projects. It serves as a shared toolkit for the CORE Software Team, providing standardized automation for code remediation, security scanning, code review, and development workflows.
+This repository is a Claude Code marketplace that hosts the **core-claude-plugin**, providing reusable automation tools (commands, agents, and configurations) for the CORE Software Team. It leverages Claude Code's native plugin marketplace system to deliver standardized automation for code remediation, security scanning, code review, and development workflows across multiple projects.
 
 ## Key Commands
 
 ## How It Works
 
-1. **Development**: Commands and agents are developed and tested in this repository
-2. **Installation**: Developers run `./install-commands.sh` to copy the `.claude/` folder contents to their home directory
-3. **Usage**: Once installed, these commands become available in any project the developer works on
-4. **Updates**: Pull latest changes and re-run the install script to get new/updated commands
+1. **Development**: Commands and agents are developed and tested in the `core-claude-plugin/` directory
+2. **Marketplace Manifest**: The `marketplace.json` file defines the marketplace and references available plugins
+3. **Plugin Manifest**: The `core-claude-plugin/.claude-plugin/plugin.json` file defines the plugin metadata and configuration
+4. **Installation**: Add the marketplace and install plugins using Claude Code's marketplace system
+5. **Auto-Discovery**: Claude Code automatically discovers commands in the `core-claude-plugin/commands/` directory and agents in the `core-claude-plugin/agents/` directory
+6. **Usage**: Once installed, commands and agents become available in any project
+7. **Updates**: Update the marketplace and plugins to receive new/updated commands and agents
 
 ### Installation
-To install these automation tools into your Claude Code environment:
+
+To install plugins from this marketplace in your Claude Code environment:
+
+**Method 1: From Repository Directory** (recommended)
 ```bash
-./install-commands.sh
+git clone <repository-url>
+cd core-claude-commands
+
+# In Claude Code, add the marketplace
+/plugin marketplace add .
+
+# Install the plugin
+/plugin install core-claude-plugin@core-marketplace
 ```
 
-This copies all commands from `.claude/commands/` to `~/.claude/commands/` and agents from `.claude/agents/` to `~/.claude/agents/`, making them globally available across all your projects.
+**Method 2: From Elsewhere**
+```bash
+# Add marketplace from path
+/plugin marketplace add /path/to/core-claude-commands
+
+# Install the plugin
+/plugin install core-claude-plugin@core-marketplace
+```
+
+Once installed, Claude Code automatically discovers all commands and agents from the plugin, making them globally available across all your projects.
+
+For more details on marketplace installation and management, see the [Claude Code Plugin Marketplaces Documentation](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces).
 
 ### Common Development Tasks
 
@@ -50,18 +74,29 @@ This copies all commands from `.claude/commands/` to `~/.claude/commands/` and a
 
 ### Directory Structure
 ```
-.claude/
-├── agents/           # Specialized AI agents for specific tasks
-│   ├── cicd-engineer.md
-│   ├── code-review-mentor.md
-│   └── performance-optimizer.md
-├── commands/         # Claude Code command definitions
-│   ├── legacy/      # PHP legacy code commands
-│   ├── perl/        # Perl-specific commands
-│   ├── processes/   # Multi-step workflow commands
-│   ├── quality/     # Code quality commands
-│   └── security/    # Security remediation commands
-└── settings.local.json
+core-claude-commands/             # Marketplace repository
+├── marketplace.json              # Marketplace manifest
+│
+└── core-claude-plugin/           # Plugin directory
+    ├── .claude-plugin/
+    │   ├── plugin.json           # Plugin manifest with metadata
+    │   └── README.md             # Plugin documentation
+    │
+    ├── agents/                   # Specialized AI agents for specific tasks
+    │   ├── cicd-engineer.md
+    │   ├── code-review-mentor.md
+    │   ├── performance-optimizer.md
+    │   ├── security-auditor.md
+    │   ├── junior-developer-mentor.md
+    │   ├── iso-27001-auditor.md
+    │   └── ...
+    │
+    └── commands/                 # Claude Code command definitions
+        ├── legacy/               # PHP legacy code commands
+        ├── perl/                 # Perl-specific commands
+        ├── processes/            # Multi-step workflow commands
+        ├── quality/              # Code quality commands
+        └── security/             # Security remediation commands
 ```
 
 ### Command Structure
@@ -76,6 +111,27 @@ Specialized agents provide focused expertise:
 - **code-review-mentor**: Reviews code with educational feedback
 - **cicd-engineer**: Handles CI/CD pipeline and deployment tasks
 - **performance-optimizer**: Analyzes and optimizes performance issues
+- **security-auditor**: Identifies and remediates security vulnerabilities
+- **junior-developer-mentor**: Provides guidance for less experienced developers
+- **iso-27001-auditor**: Audits compliance with ISO 27001 standards
+
+### Marketplace Manifest
+The `marketplace.json` file at the repository root defines:
+- **name**: Unique identifier for the marketplace (`core-marketplace`)
+- **owner**: Marketplace owner information
+- **plugins**: Array of available plugins with their sources
+
+### Plugin Manifest
+The `core-claude-plugin/.claude-plugin/plugin.json` file defines the plugin's metadata:
+- **name**: Unique identifier for the plugin (`core-claude-plugin`)
+- **description**: Brief description of plugin functionality
+- **version**: Semantic version number (follow semver.org conventions)
+- **author**: Plugin maintainer information
+
+Claude Code automatically discovers:
+- Commands from the `core-claude-plugin/commands/` directory (and subdirectories)
+- Agents from the `core-claude-plugin/agents/` directory
+- No manual installation or copying required
 
 ## Target Project Context
 
@@ -90,12 +146,17 @@ The commands are particularly effective for the CORE Compliance Platform but can
 ## Developing New Commands
 
 When creating or modifying commands in this repository:
-1. Place commands in appropriate subdirectories under `.claude/commands/`
-2. Use clear, descriptive filenames that match the command name
-3. Include comprehensive documentation within each command file
-4. Test commands thoroughly before committing
-5. Consider reusability across different projects
-6. Follow existing patterns and conventions
+1. Place commands in appropriate subdirectories under `core-claude-plugin/commands/`
+2. Place agents in the `core-claude-plugin/agents/` directory
+3. Update the plugin version in `core-claude-plugin/.claude-plugin/plugin.json` when making changes:
+   - **Patch** (1.0.x): Bug fixes and minor tweaks
+   - **Minor** (1.x.0): New commands or agents, backward-compatible changes
+   - **Major** (x.0.0): Breaking changes or major restructuring
+4. Use clear, descriptive filenames that match the command name
+5. Include comprehensive documentation within each command file
+6. Test commands thoroughly before committing
+7. Consider reusability across different projects
+8. Follow existing patterns and conventions
 
 ## Command Development Guidelines
 
@@ -109,10 +170,23 @@ When creating or modifying commands in this repository:
 
 To contribute new automation tools:
 1. Fork this repository or create a feature branch
-2. Develop and test your commands/agents
-3. Ensure they follow the existing structure and conventions
-4. Submit a PR with clear description of the new functionality
-5. Update this CLAUDE.md if adding new categories or significant features
+2. Develop and test your commands/agents in the appropriate directories:
+   - Commands: `core-claude-plugin/commands/`
+   - Agents: `core-claude-plugin/agents/`
+3. Update the plugin version in `core-claude-plugin/.claude-plugin/plugin.json` following semantic versioning
+4. Test the marketplace and plugin installation process locally:
+   ```bash
+   /plugin marketplace add .
+   /plugin install core-claude-plugin@core-marketplace
+   ```
+5. Ensure changes follow the existing structure and conventions
+6. Submit a PR with clear description of the new functionality
+7. Update this CLAUDE.md if adding new categories or significant features
+
+**Plugin Versioning Guidelines:**
+- Increment patch version for bug fixes
+- Increment minor version for new commands/agents
+- Increment major version for breaking changes
 
 Focus areas for contributions:
 - Security remediation capabilities
