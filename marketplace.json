@@ -1,7 +1,8 @@
 {
     "name": "core-marketplace",
     "owner": {
-        "name": "CORE Software Team"
+        "name": "Brian Reich",
+        "email": "brian.reich@thecoresolution.com"
     },
     "plugins": [
         {
