@@ -1,4 +1,5 @@
 ---
+allowed-tools: Bash
 description: Generate steps for how to test the current branch from from the user's perspective.
 ---
 
